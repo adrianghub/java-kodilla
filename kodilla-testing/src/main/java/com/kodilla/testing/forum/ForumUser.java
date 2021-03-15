@@ -25,38 +25,53 @@ public class ForumUser {
     }
 
     public ForumPost getPost(int postNumber) {
+        if (postNumber >= 0 && postNumber < posts.size()) {
+            return posts.get(postNumber);
+        }
         return null;
     }
 
     public ForumComment getComment(int commentNumber) {
-        return null;
+        ForumComment theComment = null;
+        if (commentNumber >= 0 && commentNumber < comments.size()) {
+            theComment = comments.get(commentNumber);
+        }
+        return theComment;
     }
 
     public void addPost(String author, String postBody) {
-        // silence is golden
+        ForumPost thePost = new ForumPost(postBody, author);
+        posts.add(thePost);
     }
 
     public void addComment(ForumPost thePost, String author, String commentBody) {
-        // silence is golden
+        ForumComment theComment = new ForumComment(thePost, commentBody, author);
+        comments.add(theComment);
     }
 
     public int getPostsQuantity() {
-        // temporarily return 100
-        return 100;
+        return posts.size();
     }
 
     public int getCommentsQuantity() {
-        // temporarily return 100
-        return 100;
+        return comments.size();
     }
 
     public boolean removePost(ForumPost thePost) {
-        // temporarily return true
-        return true;
+        boolean result = false;
+        if (posts.contains(thePost)) {
+            posts.remove(thePost);
+            result = true;
+        }
+        return result;
     }
 
     public boolean removeComment(ForumComment theComment) {
-        // temporarily return true
-        return true;
+        boolean result = false;
+        if (comments.contains(theComment)) {
+            comments.remove(theComment);
+            result = true;
+        }
+        return result;
     }
 }
