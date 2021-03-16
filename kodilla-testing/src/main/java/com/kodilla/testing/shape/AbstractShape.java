@@ -4,11 +4,9 @@ import java.util.Objects;
 
 public class AbstractShape implements Shape {
     protected String name;
-    protected String field;
 
-    public AbstractShape(String name, String field) {
+    public AbstractShape(String name) {
         this.name = name;
-        this.field = field;
     }
 
     @Override
@@ -26,11 +24,11 @@ public class AbstractShape implements Shape {
         if (this == o) return true;
         if (!(o instanceof AbstractShape)) return false;
         AbstractShape that = (AbstractShape) o;
-        return Objects.equals(name, that.name) && Objects.equals(field, that.field);
+        return Objects.equals(name, that.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, field);
+        return Objects.hash(name);
     }
 }
