@@ -3,14 +3,14 @@ package com.kodilla.testing.shape;
 public class Circle extends AbstractShape implements Shape{
     private int radius;
 
-    public Circle(String name, String field, int radius) {
-        super(name, field);
+    public Circle(String name, int radius) {
+        super(name);
         this.radius = radius;
     }
 
     @Override
     public String getShapeName() {
-        return name;
+        return this.name;
     }
 
     @Override

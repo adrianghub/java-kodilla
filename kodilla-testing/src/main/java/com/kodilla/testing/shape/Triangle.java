@@ -5,15 +5,15 @@ public class Triangle extends AbstractShape implements Shape {
     private final int height;
     private int radius;
 
-    public Triangle(String name, String field, int aField, int height) {
-        super(name, field);
+    public Triangle(String name, int aField, int height) {
+        super(name);
         this.aField = aField;
         this.height = height;
     }
 
     @Override
     public String getShapeName() {
-        return name;
+        return this.name;
     }
 
     @Override
