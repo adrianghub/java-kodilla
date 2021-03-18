@@ -123,7 +123,7 @@ public class BookDirectoryTestSuite {
             //When
             List<Book> theListOfBooks0 = bookLibrary.listBooksInHandsOf(libraryUser);
             //Then
-            assertEquals(0, resultListOf0RentedBooks.size());
+            assertEquals(0, theListOfBooks0.size());
         }
 
         @Test
@@ -132,13 +132,18 @@ public class BookDirectoryTestSuite {
             BookLibrary bookLibrary = new BookLibrary(libraryDatabaseMock);
             LibraryUser libraryUser = new LibraryUser("Andrzej", "Hania", "2938420842");
             Book book4 = new Book("Secrets of Java", "Ian Tenewitch", 2010);
-            Map<LibraryUser, Book> resultListOfOneRentedBook = new HashMap<>();
+            List<Book> resultListOfOneRentedBook = new ArrayList<>();
+            boolean rented = bookLibrary.rentABook(libraryUser, book4);
+            if(rented) {
+                resultListOfOneRentedBook.add(book4);
+            }
+            when(libraryDatabaseMock.listBooksInHandsOf(libraryUser)).thenReturn(resultListOfOneRentedBook);
 
             //When
-            resultListOfOneRentedBook.put(libraryUser, book4);
+            List<Book> theListOfBooks1 = bookLibrary.listBooksInHandsOf(libraryUser);
 
             //Then
-            assertEquals(1, resultListOfOneRentedBook.size());
+            assertEquals(1, theListOfBooks1.size());
         }
 
         @Test
