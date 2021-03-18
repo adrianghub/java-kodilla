@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
@@ -134,7 +133,7 @@ public class BookDirectoryTestSuite {
             Book book4 = new Book("Secrets of Java", "Ian Tenewitch", 2010);
             List<Book> resultListOfOneRentedBook = new ArrayList<>();
             boolean rented = bookLibrary.rentABook(libraryUser, book4);
-            if(rented) {
+            if (rented) {
                 resultListOfOneRentedBook.add(book4);
             }
             when(libraryDatabaseMock.listBooksInHandsOf(libraryUser)).thenReturn(resultListOfOneRentedBook);
@@ -155,7 +154,7 @@ public class BookDirectoryTestSuite {
             Map<LibraryUser, Book> resultListOfFiveRentedBook = new HashMap<>();
 
             //When
-            for (LibraryUser user: userList) {
+            for (LibraryUser user : userList) {
                 resultListOfFiveRentedBook.put(user, book4);
             }
 
