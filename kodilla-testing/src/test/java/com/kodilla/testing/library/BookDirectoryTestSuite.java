@@ -7,10 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -104,9 +101,11 @@ public class BookDirectoryTestSuite {
         @Test
         void testListBooksInHandsOfWithConditionEmptyResultList() {
             //Given
-            List<Book> resultListOfBooks = new ArrayList<>();
             BookLibrary bookLibrary = new BookLibrary(libraryDatabaseMock);
             LibraryUser libraryUser = new LibraryUser("Andrzej", "Hania", "2938420842");
+            Map<Book, LibraryUser> resultListOfZeroRentedBook = new HashMap<>();
+            Set<Book> keySet = resultListOfZeroRentedBook.keySet();
+            List<Book> resultListOfBooks = new ArrayList<>(keySet);
             when(libraryDatabaseMock.listBooksInHandsOf(libraryUser)).thenReturn(resultListOfBooks);
             //When
             List<Book> theListOfBooks0 = bookLibrary.listBooksInHandsOf(libraryUser);
@@ -117,17 +116,13 @@ public class BookDirectoryTestSuite {
         @Test
         void testListBooksInHandsOfWithConditionExactlyOneBook() {
             //Given
-            List<Book> resultListOfBooks = new ArrayList<>();
             BookLibrary bookLibrary = new BookLibrary(libraryDatabaseMock);
             LibraryUser libraryUser = new LibraryUser("Andrzej", "Hania", "2938420842");
             Book book4 = new Book("Secrets of Java", "Ian Tenewitch", 2010);
-            Map<LibraryUser, Book> resultListOfOneRentedBook = new HashMap<>();
-            resultListOfOneRentedBook.put(libraryUser, book4);
-
-            for (Map.Entry key: resultListOfOneRentedBook.entrySet()) {
-                resultListOfBooks.add(resultListOfOneRentedBook.get(key));
-            }
-
+            Map<Book, LibraryUser> resultListOfOneRentedBook = new HashMap<>();
+            resultListOfOneRentedBook.put(book4, libraryUser);
+            Set<Book> keySet = resultListOfOneRentedBook.keySet();
+            List<Book> resultListOfBooks = new ArrayList<>(keySet);
             when(libraryDatabaseMock.listBooksInHandsOf(libraryUser)).thenReturn(resultListOfBooks);
 
             //When
@@ -140,24 +135,23 @@ public class BookDirectoryTestSuite {
         @Test
         void testListBooksInHandsOfWithConditionExactlyFiveBooks() {
             //Given
-            List<Book> resultListOfBooks = new ArrayList<>();
             BookLibrary bookLibrary = new BookLibrary(libraryDatabaseMock);
             LibraryUser libraryUser = new LibraryUser("Andrzej", "Hania", "2938420842");
             Book book1 = new Book("Secrets of Java", "Ian Tenewitch", 2010);
             Book book2 = new Book("Secrets of Alamo", "John Smith", 2008);
             Book book3 = new Book("Secretaries and Directors", "Dilbert Michigan", 2012);
             Book book4 = new Book("Secret life of programmers", "Steve Wolkowitz", 2016);
-            Book book5 = new Book("Secrets of Java", "Ian Tenewitch", 2010);
-            Map<LibraryUser, Book> resultListOfFiveRentedBook = new HashMap<>();
-            resultListOfFiveRentedBook.put(libraryUser, book1);
-            resultListOfFiveRentedBook.put(libraryUser, book2);
-            resultListOfFiveRentedBook.put(libraryUser, book3);
-            resultListOfFiveRentedBook.put(libraryUser, book4);
-            resultListOfFiveRentedBook.put(libraryUser, book5);
+            Book book5 = new Book("Secrets of Joga", "Tampaha", 2000);
+            Map<Book, LibraryUser> resultListOfFiveRentedBook = new HashMap<>();
+            resultListOfFiveRentedBook.put(book1, libraryUser);
+            resultListOfFiveRentedBook.put(book2, libraryUser);
+            resultListOfFiveRentedBook.put(book3, libraryUser);
+            resultListOfFiveRentedBook.put(book4, libraryUser);
+            resultListOfFiveRentedBook.put(book5, libraryUser);
 
-            for (Map.Entry key: resultListOfFiveRentedBook.entrySet()) {
-                resultListOfBooks.add(resultListOfFiveRentedBook.get(key));
-            }
+            Set<Book> keySet = resultListOfFiveRentedBook.keySet();
+
+            List<Book> resultListOfBooks = new ArrayList<>(keySet);
 
             when(libraryDatabaseMock.listBooksInHandsOf(libraryUser)).thenReturn(resultListOfBooks);
 
