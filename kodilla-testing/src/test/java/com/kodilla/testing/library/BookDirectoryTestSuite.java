@@ -110,15 +110,11 @@ public class BookDirectoryTestSuite {
             return resultList;
         }
 
-        // TODO: add rentABook() , returnBooks() methods
-
         @Test
         void testListBooksInHandsOfWithConditionEmptyResultList() {
             //Given
             BookLibrary bookLibrary = new BookLibrary(libraryDatabaseMock);
             LibraryUser libraryUser = new LibraryUser("Andrzej", "Hania", "2938420842");
-            List<Book> resultListOf0RentedBooks = new ArrayList<>();
-            when(libraryDatabaseMock.listBooksInHandsOf(libraryUser)).thenReturn(resultListOf0RentedBooks);
             //When
             List<Book> theListOfBooks0 = bookLibrary.listBooksInHandsOf(libraryUser);
             //Then
@@ -131,18 +127,13 @@ public class BookDirectoryTestSuite {
             BookLibrary bookLibrary = new BookLibrary(libraryDatabaseMock);
             LibraryUser libraryUser = new LibraryUser("Andrzej", "Hania", "2938420842");
             Book book4 = new Book("Secrets of Java", "Ian Tenewitch", 2010);
-            List<Book> resultListOfOneRentedBook = new ArrayList<>();
-            boolean rented = bookLibrary.rentABook(libraryUser, book4);
-            if (rented) {
-                resultListOfOneRentedBook.add(book4);
-            }
-            when(libraryDatabaseMock.listBooksInHandsOf(libraryUser)).thenReturn(resultListOfOneRentedBook);
+            Map<LibraryUser, Book> resultListOfOneRentedBook = new HashMap<>();
 
             //When
-            List<Book> theListOfBooks1 = bookLibrary.listBooksInHandsOf(libraryUser);
+            resultListOfOneRentedBook.put(libraryUser, book4);
 
             //Then
-            assertEquals(1, theListOfBooks1.size());
+            assertEquals(1, resultListOfOneRentedBook.size());
         }
 
         @Test

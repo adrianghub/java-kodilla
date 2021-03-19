@@ -36,49 +36,24 @@ public class BookLibrary {
         return bookList;
     }
 
-    public boolean rentABook(LibraryUser libraryUser, Book book) {
-        // generate book list
-        List<Book> bookList = generateBookList();
-        // hashmap with books assigned to users;
-        Map<LibraryUser, Book> libraryUsers = new HashMap<>();
-        // if book is unavailable return false
-        if(!bookList.contains(book)) {
-            return false;
-        }
-        // otherwise assign book to library user
-        libraryUsers.put(libraryUser, book);
-        return true;
-    }
-
-    public int returnBooks(LibraryUser libraryUser) {
-        Map<LibraryUser, Book> libraryUsers = new HashMap<>();
-        List<Book> bookList = generateBookList();
-        List<Book> rentedBookList = new ArrayList<>();
-        boolean rented;
-
-        for (Book book: bookList) {
-            rented = rentABook(libraryUser, book);
-            if(rented) {
-                rentedBookList.add(book);
-            }
-        }
-
-        return rentedBookList.size();
-    }
-
     public List<Book> listBooksInHandsOf(LibraryUser libraryUser) {
         List<Book> rentedBookList = new ArrayList<>();
-        int rentedBooksQuantity = returnBooks(libraryUser);
-        // when the user doesn't have any rented books
-        int booksRentedByUser = returnBooks(libraryUser);
-        if (booksRentedByUser == 0) return rentedBookList;
-        // when the user has exactly one rented book
-        List<Book> resultList = libraryDatabase.listBooksInHandsOf(libraryUser);
-        if (resultList.size() == 1) return resultList;
-        // when the user has exactly 5 rented books
-        if (resultList.size() == 5) return resultList;
 
-        return rentedBookList;
+        Map<LibraryUser, Book> libraryUsers = new HashMap<>();
+
+        List<Book> resultList = libraryDatabase
+                .listBooksInHandsOf(libraryUser);
+
+        for (Map.Entry entry : libraryUsers.entrySet()) {
+            rentedBookList.add(libraryUsers.get(entry));
+        }
+
+
+        // when the user doesn't have any rented books
+        // when the user has exactly one rented book
+        // when the user has exactly 5 rented books
+
+        return resultList;
     }
 }
 
