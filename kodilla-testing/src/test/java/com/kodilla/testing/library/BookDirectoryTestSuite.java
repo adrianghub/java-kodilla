@@ -101,20 +101,21 @@ public class BookDirectoryTestSuite {
     @DisplayName("Test books in hands of")
     public class testBooksInHandsOf {
 
-        private List<LibraryUser> generateListOfNLibraryUsers(int usersAmount) {
-            List<LibraryUser> resultList = new ArrayList<>();
-            for (int n = 1; n <= usersAmount; n++) {
-                LibraryUser libraryUser = new LibraryUser("Gal " + n, "Anonim " + n, "2422442" + n);
-                resultList.add(libraryUser);
-            }
-            return resultList;
-        }
-
         @Test
         void testListBooksInHandsOfWithConditionEmptyResultList() {
             //Given
+            List<Book> resultListOfBooks = new ArrayList<>();
             BookLibrary bookLibrary = new BookLibrary(libraryDatabaseMock);
+            Book book1 = new Book("Secrets of Alamo", "John Smith", 2008);
+            Book book2 = new Book("Secretaries and Directors", "Dilbert Michigan", 2012);
+            Book book3 = new Book("Secret life of programmers", "Steve Wolkowitz", 2016);
+            Book book4 = new Book("Secrets of Java", "Ian Tenewitch", 2010);
+            resultListOfBooks.add(book1);
+            resultListOfBooks.add(book2);
+            resultListOfBooks.add(book3);
+            resultListOfBooks.add(book4);
             LibraryUser libraryUser = new LibraryUser("Andrzej", "Hania", "2938420842");
+            when(libraryDatabaseMock.listBooksInHandsOf(libraryUser)).thenReturn(resultListOfBooks);
             //When
             List<Book> theListOfBooks0 = bookLibrary.listBooksInHandsOf(libraryUser);
             //Then
@@ -124,33 +125,45 @@ public class BookDirectoryTestSuite {
         @Test
         void testListBooksInHandsOfWithConditionExactlyOneBook() {
             //Given
+            List<Book> resultListOfBooks = new ArrayList<>();
             BookLibrary bookLibrary = new BookLibrary(libraryDatabaseMock);
             LibraryUser libraryUser = new LibraryUser("Andrzej", "Hania", "2938420842");
             Book book4 = new Book("Secrets of Java", "Ian Tenewitch", 2010);
             Map<LibraryUser, Book> resultListOfOneRentedBook = new HashMap<>();
+            resultListOfOneRentedBook.put(libraryUser, book4);
+            when(libraryDatabaseMock.listBooksInHandsOf(libraryUser)).thenReturn(resultListOfBooks);
 
             //When
-            resultListOfOneRentedBook.put(libraryUser, book4);
+            List<Book> theListOfBooks1 = bookLibrary.listBooksInHandsOf(libraryUser);
 
             //Then
-            assertEquals(1, resultListOfOneRentedBook.size());
+            assertEquals(1, theListOfBooks1.size());
         }
 
         @Test
         void testListBooksInHandsOfWithConditionExactlyFiveBooks() {
             //Given
+            List<Book> resultListOfBooks = new ArrayList<>();
             BookLibrary bookLibrary = new BookLibrary(libraryDatabaseMock);
-            Book book4 = new Book("Secrets of Java", "Ian Tenewitch", 2010);
-            List<LibraryUser> userList = generateListOfNLibraryUsers(5);
+            LibraryUser libraryUser = new LibraryUser("Andrzej", "Hania", "2938420842");
+            Book book1 = new Book("Secrets of Java", "Ian Tenewitch", 2010);
+            Book book2 = new Book("Secrets of Alamo", "John Smith", 2008);
+            Book book3 = new Book("Secretaries and Directors", "Dilbert Michigan", 2012);
+            Book book4 = new Book("Secret life of programmers", "Steve Wolkowitz", 2016);
+            Book book5 = new Book("Secrets of Java", "Ian Tenewitch", 2010);
             Map<LibraryUser, Book> resultListOfFiveRentedBook = new HashMap<>();
+            resultListOfFiveRentedBook.put(libraryUser, book1);
+            resultListOfFiveRentedBook.put(libraryUser, book2);
+            resultListOfFiveRentedBook.put(libraryUser, book3);
+            resultListOfFiveRentedBook.put(libraryUser, book4);
+            resultListOfFiveRentedBook.put(libraryUser, book5);
+            when(libraryDatabaseMock.listBooksInHandsOf(libraryUser)).thenReturn(resultListOfBooks);
 
             //When
-            for (LibraryUser user : userList) {
-                resultListOfFiveRentedBook.put(user, book4);
-            }
+            List<Book> theListOfBooks5 = bookLibrary.listBooksInHandsOf(libraryUser);
 
             //Then
-            assertEquals(5, resultListOfFiveRentedBook.size());
+            assertEquals(5, theListOfBooks5.size());
         }
     }
 }

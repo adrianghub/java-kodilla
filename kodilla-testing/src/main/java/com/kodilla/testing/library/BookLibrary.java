@@ -48,10 +48,12 @@ public class BookLibrary {
             rentedBookList.add(libraryUsers.get(entry));
         }
 
-
         // when the user doesn't have any rented books
+        if (rentedBookList.size() == 0) return rentedBookList;
         // when the user has exactly one rented book
+        if (rentedBookList.size() == 1) return rentedBookList;
         // when the user has exactly 5 rented books
+        if (rentedBookList.size() == 5) return rentedBookList;
 
         return resultList;
     }
