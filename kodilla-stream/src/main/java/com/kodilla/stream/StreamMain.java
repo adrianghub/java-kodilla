@@ -1,31 +1,29 @@
 package com.kodilla.stream;
 
-import com.kodilla.stream.beautifier.PoemBeautifier;
-import com.kodilla.stream.iterate.NumbersGenerator;
-import com.kodilla.stream.reference.Decorator;
+import com.kodilla.stream.book.Book;
+import com.kodilla.stream.book.BookDirectory;
+import com.kodilla.stream.forumuser.Forum;
+import com.kodilla.stream.forumuser.ForumUser;
+import com.kodilla.stream.forumuser.Sex;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class StreamMain {
     public static void main(String[] args) {
-//        Processor processor = new Processor();
-//        processor.execute(() -> System.out.println("This is an example text from lambda expression."));
-//
-//        ExpressionExecutor expressionExecutor = new ExpressionExecutor();
-//
-//        System.out.println("Expression with lambdas: ");
-//        expressionExecutor.executeExpression(10, 5, (a, b) -> a + b);
-//
-//        System.out.println("Expression with method reference: ");
-//        expressionExecutor.executeExpression(2, 2, FunctionalCalculator::multiplyAByB);
+        Forum forumHomogenizowane = new Forum();
 
-//        PoemBeautifier poemBeautifier = new PoemBeautifier();
-//
-//        poemBeautifier.beautify("LMAO", Decorator::decorateWithSmileEmoji);
-//        poemBeautifier.beautify("was ist eine gute programmiersprache", Decorator::decorateToUppercase);
-//        poemBeautifier.beautify("Litwo, Ojczyzno moja", sentence -> sentence + "...");
+        Map<Integer, ForumUser> resultOfNaturalSelection = forumHomogenizowane.getUserList().stream()
+                .filter(user -> user.getSex().equals(Sex.M))
+                .filter(user -> user.getYear() < 2003)
+                .filter(user -> user.getNumberOfPublishedPosts() > 1)
+                .collect(Collectors.toMap(ForumUser::getUniqueID, user -> user));
 
-        System.out.println("Using Stream to generate even numbers from 1 to 20");
-        NumbersGenerator.generateEven(20);
-
+        System.out.println("Reminded forum users: " + resultOfNaturalSelection.size());
+        resultOfNaturalSelection.entrySet().stream()
+                .map(entry -> "ID #" + entry.getKey() + ": " + entry.getValue())
+                .forEach(System.out::println);
     }
 
 }
