@@ -106,14 +106,6 @@ public class BookDirectoryTestSuite {
             //Given
             List<Book> resultListOfBooks = new ArrayList<>();
             BookLibrary bookLibrary = new BookLibrary(libraryDatabaseMock);
-            Book book1 = new Book("Secrets of Alamo", "John Smith", 2008);
-            Book book2 = new Book("Secretaries and Directors", "Dilbert Michigan", 2012);
-            Book book3 = new Book("Secret life of programmers", "Steve Wolkowitz", 2016);
-            Book book4 = new Book("Secrets of Java", "Ian Tenewitch", 2010);
-            resultListOfBooks.add(book1);
-            resultListOfBooks.add(book2);
-            resultListOfBooks.add(book3);
-            resultListOfBooks.add(book4);
             LibraryUser libraryUser = new LibraryUser("Andrzej", "Hania", "2938420842");
             when(libraryDatabaseMock.listBooksInHandsOf(libraryUser)).thenReturn(resultListOfBooks);
             //When
@@ -131,6 +123,11 @@ public class BookDirectoryTestSuite {
             Book book4 = new Book("Secrets of Java", "Ian Tenewitch", 2010);
             Map<LibraryUser, Book> resultListOfOneRentedBook = new HashMap<>();
             resultListOfOneRentedBook.put(libraryUser, book4);
+
+            for (Map.Entry key: resultListOfOneRentedBook.entrySet()) {
+                resultListOfBooks.add(resultListOfOneRentedBook.get(key));
+            }
+
             when(libraryDatabaseMock.listBooksInHandsOf(libraryUser)).thenReturn(resultListOfBooks);
 
             //When
@@ -157,6 +154,11 @@ public class BookDirectoryTestSuite {
             resultListOfFiveRentedBook.put(libraryUser, book3);
             resultListOfFiveRentedBook.put(libraryUser, book4);
             resultListOfFiveRentedBook.put(libraryUser, book5);
+
+            for (Map.Entry key: resultListOfFiveRentedBook.entrySet()) {
+                resultListOfBooks.add(resultListOfFiveRentedBook.get(key));
+            }
+
             when(libraryDatabaseMock.listBooksInHandsOf(libraryUser)).thenReturn(resultListOfBooks);
 
             //When

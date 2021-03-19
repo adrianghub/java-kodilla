@@ -38,22 +38,14 @@ public class BookLibrary {
 
     public List<Book> listBooksInHandsOf(LibraryUser libraryUser) {
         List<Book> rentedBookList = new ArrayList<>();
-
         Map<LibraryUser, Book> libraryUsers = new HashMap<>();
-
         List<Book> resultList = libraryDatabase
                 .listBooksInHandsOf(libraryUser);
 
-        for (Map.Entry entry : libraryUsers.entrySet()) {
-            rentedBookList.add(libraryUsers.get(entry));
-        }
 
-        // when the user doesn't have any rented books
-        if (rentedBookList.size() == 0) return rentedBookList;
-        // when the user has exactly one rented book
-        if (rentedBookList.size() == 1) return rentedBookList;
-        // when the user has exactly 5 rented books
-        if (rentedBookList.size() == 5) return rentedBookList;
+        for (Map.Entry entry : libraryUsers.entrySet()) {
+            resultList.add(libraryUsers.get(entry));
+        }
 
         return resultList;
     }
