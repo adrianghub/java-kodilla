@@ -3,7 +3,12 @@ package com.kodilla.testing.forum.tdd;
 import com.kodilla.testing.forum.ForumComment;
 import com.kodilla.testing.forum.ForumPost;
 import com.kodilla.testing.forum.ForumUser;
+import com.kodilla.testing.forum.statistics.ForumStatisticsCalculator;
+import com.kodilla.testing.forum.statistics.Statistics;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -40,8 +45,9 @@ class ForumTestSuite {
             forumUser.addPost("mrswhite", "Hello everyone, this is my first contribution here!");
 
             //Then
-            assertEquals(1,forumUser.getPostsQuantity());
+            assertEquals(1, forumUser.getPostsQuantity());
         }
+
         @Test
         void testGetPost() {
             //Given
@@ -55,6 +61,7 @@ class ForumTestSuite {
             //Then
             assertEquals(thePost, retrievedPost);
         }
+
         @Test
         void testRemovePostNotExisting() {
             //Given
@@ -66,6 +73,7 @@ class ForumTestSuite {
             //Then
             assertFalse(result);
         }
+
         @Test
         void testRemovePost() {
             //Given
@@ -99,7 +107,6 @@ class ForumTestSuite {
         }
 
 
-
         @Test
         void testGetComment() {
             //Given
@@ -115,7 +122,6 @@ class ForumTestSuite {
             //Then
             assertEquals(theComment, retrievedComment);
         }
-
 
 
         @Test
@@ -147,6 +153,92 @@ class ForumTestSuite {
             //Then
             assertTrue(result);
             assertEquals(0, forumUser.getCommentsQuantity());
+        }
+    }
+
+    @Nested
+    @DisplayName("Test forum statistics")
+    @ExtendWith(MockitoExtension.class)
+    class TestForumStatistics {
+
+        @Mock
+        private Statistics statisticsMock;
+
+        private int generateListOfNPosts(int postsQuantity, ForumUser forumUser) {
+            for (int n = 1; n <= postsQuantity; n++) {
+                String theAuthor = "Author " + n;
+                String thePost = "Post Body " + n;
+                forumUser.addPost(theAuthor, thePost);
+            }
+
+            return forumUser.getPostsQuantity();
+        }
+
+        @Test
+        void testWithoutPosts() {
+            //Given
+            ForumStatisticsCalculator forumStats = new ForumStatisticsCalculator(statisticsMock);                  // [1]
+            ForumUser forumUser = new ForumUser("adam123", "Adam");
+            int postQuantity = generateListOfNPosts(0, forumUser);
+            forumStats.addForumUser(forumUser);
+            //When
+            int displayPostsCount = forumStats.postsCount();
+            //Then
+            assertEquals(0, displayPostsCount);
+        }
+
+        @Test
+        void testFor1000Posts() {
+            //Given
+            ForumStatisticsCalculator forumStats = new ForumStatisticsCalculator(statisticsMock);                  // [1]
+            ForumUser forumUser = new ForumUser("adam123", "Adam");
+            int postQuantity = generateListOfNPosts(1000, forumUser);
+            forumStats.addForumUser(forumUser);
+            //When
+            int displayPostsCount = forumStats.postsCount();
+
+            //Then
+            assertEquals(1000, displayPostsCount);
+        }
+
+        @Test
+        void testWithoutComments() {
+            //Given
+            //When
+            //Then
+            assertTrue(false);
+        }
+
+        @Test
+        void testCommentsQuantitySmallerThenPostsQuantity() {
+            //Given
+            //When
+            //Then
+            assertTrue(false);
+        }
+
+        @Test
+        void testCommentsQuantityGreaterThenPostsQuantity() {
+            //Given
+            //When
+            //Then
+            assertTrue(false);
+        }
+
+        @Test
+        void testWithoutUsers() {
+            //Given
+            //When
+            //Then
+            assertTrue(false);
+        }
+
+        @Test
+        void testFor100Users() {
+            //Given
+            //When
+            //Then
+            assertTrue(false);
         }
     }
 
