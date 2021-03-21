@@ -1,12 +1,11 @@
 package com.kodilla.stream;
 
-import com.kodilla.stream.book.Book;
-import com.kodilla.stream.book.BookDirectory;
 import com.kodilla.stream.forumuser.Forum;
 import com.kodilla.stream.forumuser.ForumUser;
 import com.kodilla.stream.forumuser.Sex;
+import com.kodilla.stream.sand.Europe;
+import com.kodilla.stream.sand.SandStorage;
 
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -24,6 +23,9 @@ public class StreamMain {
         resultOfNaturalSelection.entrySet().stream()
                 .map(entry -> "ID #" + entry.getKey() + ": " + entry.getValue())
                 .forEach(System.out::println);
-    }
 
+
+        SandStorage europe = new Europe();
+        System.out.println(europe.getSandBeansQuantity());
+    }
 }
