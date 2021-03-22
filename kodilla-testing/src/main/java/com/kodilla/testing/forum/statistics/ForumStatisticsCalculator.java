@@ -8,6 +8,14 @@ import java.util.List;
 
 public class ForumStatisticsCalculator implements Statistics {
 
+    private int quantityOfUserNames;
+    private int quantityOfPostBodies;
+    private int quantityOfPosts;
+    private int quantityOfComments;
+    private int averagePostsCount;
+    private int averageCommentsCountByUser;
+    private int averageCommentsCountByPost;
+
     private final List<ForumUser> forumUsers = new ArrayList<>();
     private final List<ForumPost> forumPosts = new ArrayList<>();
     private final List<String> forumUsersNames = new ArrayList<>();
@@ -19,18 +27,17 @@ public class ForumStatisticsCalculator implements Statistics {
     }
 
     public void calculateAdvStatistics(Statistics statistics) {
-        System.out.println("Calculate statistics");
+        this.quantityOfUserNames = statistics.usersNames().size();
+        this.quantityOfPostBodies = statistics.postBodies().size();
+        this.quantityOfPosts = statistics.postsCount();
+        this.quantityOfComments = statistics.commentsCount();
+
+        this.averagePostsCount = quantityOfPosts / quantityOfUserNames;
+        this.averageCommentsCountByUser = quantityOfComments / quantityOfUserNames;
+        this.averageCommentsCountByPost = quantityOfComments / quantityOfPostBodies;
     }
 
     public void showStatistics() {
-        int quantityOfUserNames = statistics.usersNames().size();
-        int quantityOfPostBodies = statistics.postBodies().size();
-        int quantityOfPosts = statistics.postsCount();
-        int quantityOfComments = statistics.commentsCount();
-        int averagePostsCount = quantityOfPosts / quantityOfUserNames;
-        int averageCommentsCountByUser = quantityOfComments / quantityOfUserNames;
-        int averageCommentsCountByPost = quantityOfComments / quantityOfPostBodies;
-
         System.out.println(
                 "Stats => Users: " + quantityOfUserNames +
                         "Posts:" + quantityOfPosts +
@@ -50,6 +57,34 @@ public class ForumStatisticsCalculator implements Statistics {
             forumUsersNames.add(user.getName());
         }
         return forumUsersNames;
+    }
+
+    public int getQuantityOfUserNames() {
+        return quantityOfUserNames;
+    }
+
+    public int getQuantityOfPostBodies() {
+        return quantityOfPostBodies;
+    }
+
+    public int getQuantityOfPosts() {
+        return quantityOfPosts;
+    }
+
+    public int getQuantityOfComments() {
+        return quantityOfComments;
+    }
+
+    public int getAveragePostsCount() {
+        return averagePostsCount;
+    }
+
+    public int getAverageCommentsCountByUser() {
+        return averageCommentsCountByUser;
+    }
+
+    public int getAverageCommentsCountByPost() {
+        return averageCommentsCountByPost;
     }
 
     @Override
