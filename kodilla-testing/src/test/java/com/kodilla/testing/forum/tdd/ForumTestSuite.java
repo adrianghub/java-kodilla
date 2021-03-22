@@ -10,6 +10,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("TDD: Forum Test Suite")
@@ -174,6 +177,16 @@ class ForumTestSuite {
             return forumUser.getPostsQuantity();
         }
 
+        private List<ForumUser> generateListOfNUsersNames(int usersQuantity) {
+            List<ForumUser> users = new ArrayList<>();
+            for (int n = 1; n <= usersQuantity; n++) {
+                ForumUser user = new ForumUser("noname" + n, "Kacper" + n);
+                users.add(user);
+            }
+
+            return users;
+        }
+
         @Test
         void testWithoutPosts() {
             //Given
@@ -182,9 +195,9 @@ class ForumTestSuite {
             int postQuantity = generateListOfNPosts(0, forumUser);
             forumStats.addForumUser(forumUser);
             //When
-            int displayPostsCount = forumStats.postsCount();
+            int displayPostsQuantity = forumStats.postsCount();
             //Then
-            assertEquals(0, displayPostsCount);
+            assertEquals(0, displayPostsQuantity);
         }
 
         @Test
@@ -195,18 +208,26 @@ class ForumTestSuite {
             int postQuantity = generateListOfNPosts(1000, forumUser);
             forumStats.addForumUser(forumUser);
             //When
-            int displayPostsCount = forumStats.postsCount();
+            int displayPostsQuantity = forumStats.postsCount();
 
             //Then
-            assertEquals(1000, displayPostsCount);
+            assertEquals(1000, displayPostsQuantity);
         }
 
         @Test
         void testWithoutComments() {
             //Given
+            ForumStatisticsCalculator forumStats = new ForumStatisticsCalculator(statisticsMock);
+            ForumUser forumUser = new ForumUser("adam123", "Adam");
+            int postQuantity = generateListOfNPosts(1000, forumUser);
+            forumStats.addForumUser(forumUser);
+
             //When
+            int displayCommentsQuantity = forumStats.commentsCount();
+
             //Then
-            assertTrue(false);
+            assertEquals(0, displayCommentsQuantity);
+
         }
 
         @Test
@@ -228,17 +249,32 @@ class ForumTestSuite {
         @Test
         void testWithoutUsers() {
             //Given
+            ForumStatisticsCalculator forumStats = new ForumStatisticsCalculator(statisticsMock);
+            ForumUser forumUser = new ForumUser("adam123", "Adam");
+            int postQuantity = generateListOfNPosts(1000, forumUser);
+
             //When
+            int displayUsersNamesQuantity = forumStats.usersNames().size();
+
             //Then
-            assertTrue(false);
+            assertEquals(0, displayUsersNamesQuantity);
         }
 
         @Test
         void testFor100Users() {
             //Given
+            ForumStatisticsCalculator forumStats = new ForumStatisticsCalculator(statisticsMock);
+            List<ForumUser> result100Users = generateListOfNUsersNames(100);
+
+            for(ForumUser user: result100Users) {
+                forumStats.addForumUser(user);
+            }
+
             //When
+            int displayUsersQuantity = forumStats.usersNames().size();
+
             //Then
-            assertTrue(false);
+            assertEquals(100, displayUsersQuantity);
         }
     }
 

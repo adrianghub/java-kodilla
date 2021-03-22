@@ -18,11 +18,11 @@ public class ForumStatisticsCalculator implements Statistics {
         this.statistics = statistics;
     }
 
-    public void showStatics() {
-        calculateAdvStatistics(statistics);
+    public void calculateAdvStatistics(Statistics statistics) {
+        System.out.println("Calculate statistics");
     }
 
-    public void calculateAdvStatistics(Statistics statistics) {
+    public void showStatistics() {
         int quantityOfUserNames = statistics.usersNames().size();
         int quantityOfPostBodies = statistics.postBodies().size();
         int quantityOfPosts = statistics.postsCount();
