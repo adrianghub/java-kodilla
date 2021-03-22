@@ -195,7 +195,7 @@ class ForumTestSuite {
             ForumUser forumUser = new ForumUser("adam123", "Adam");
             forumStats.addForumUser(forumUser);
             //When
-            int displayPostsQuantity = forumStats.postsCount();
+            int displayPostsQuantity = forumStats.getQuantityOfPosts();
             //Then
             assertEquals(0, displayPostsQuantity);
         }
