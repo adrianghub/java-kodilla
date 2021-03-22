@@ -43,9 +43,10 @@ class ForumTestSuite {
         void testAddPost() {
             //Given
             ForumUser forumUser = new ForumUser("mrswhite", "Walter White");
+            ForumPost forumPost = new ForumPost("mrswhite", "Hello everyone, this is my first contribution here!");
 
             //When
-            forumUser.addPost("mrswhite", "Hello everyone, this is my first contribution here!");
+            forumUser.addPost(forumPost);
 
             //Then
             assertEquals(1, forumUser.getPostsQuantity());
@@ -57,7 +58,7 @@ class ForumTestSuite {
             ForumUser forumUser = new ForumUser("mrswhite", "Walter White");
             ForumPost thePost = new ForumPost("Hello everyone, " +
                     "this is my first contribution here!", "mrsmith");
-            forumUser.addPost(thePost.getAuthor(), thePost.getPostBody());
+            forumUser.addPost(thePost);
             //When
             ForumPost retrievedPost;
             retrievedPost = forumUser.getPost(0);
@@ -83,7 +84,7 @@ class ForumTestSuite {
             ForumUser forumUser = new ForumUser("mrsmith", "John Smith");
             ForumPost thePost = new ForumPost("Hello everyone, " +
                     "this is my first contribution here!", "mrsmith");
-            forumUser.addPost(thePost.getAuthor(), thePost.getPostBody());
+            forumUser.addPost(thePost);
             //When
             boolean result = forumUser.removePost(thePost);
             //Then
@@ -167,14 +168,14 @@ class ForumTestSuite {
         @Mock
         private Statistics statisticsMock;
 
-        private int generateListOfNPosts(int postsQuantity, ForumUser forumUser) {
+        private List<ForumPost> generateListOfNPosts(int postsQuantity) {
+            List<ForumPost> posts = new ArrayList<>();
             for (int n = 1; n <= postsQuantity; n++) {
-                String theAuthor = "Author " + n;
-                String thePost = "Post Body " + n;
-                forumUser.addPost(theAuthor, thePost);
+                ForumPost post = new ForumPost("Post Body" + n , "Author " + n);
+                posts.add(post);
             }
 
-            return forumUser.getPostsQuantity();
+            return posts;
         }
 
         private List<ForumUser> generateListOfNUsersNames(int usersQuantity) {
@@ -188,11 +189,10 @@ class ForumTestSuite {
         }
 
         @Test
-        void testWithoutPosts() {
+        void testCalculateAverageWithoutPosts() {
             //Given
             ForumStatisticsCalculator forumStats = new ForumStatisticsCalculator(statisticsMock);                  // [1]
             ForumUser forumUser = new ForumUser("adam123", "Adam");
-            int postQuantity = generateListOfNPosts(0, forumUser);
             forumStats.addForumUser(forumUser);
             //When
             int displayPostsQuantity = forumStats.postsCount();
@@ -201,12 +201,16 @@ class ForumTestSuite {
         }
 
         @Test
-        void testFor1000Posts() {
+        void testCalculateAverageFor1000Posts() {
             //Given
             ForumStatisticsCalculator forumStats = new ForumStatisticsCalculator(statisticsMock);                  // [1]
             ForumUser forumUser = new ForumUser("adam123", "Adam");
-            int postQuantity = generateListOfNPosts(1000, forumUser);
+            List<ForumPost> result1000Users = generateListOfNPosts(1000);
+            for (ForumPost post: result1000Users) {
+                forumUser.addPost(post);
+            }
             forumStats.addForumUser(forumUser);
+
             //When
             int displayPostsQuantity = forumStats.postsCount();
 
@@ -215,11 +219,14 @@ class ForumTestSuite {
         }
 
         @Test
-        void testWithoutComments() {
+        void testCalculateAverageWithoutComments() {
             //Given
             ForumStatisticsCalculator forumStats = new ForumStatisticsCalculator(statisticsMock);
             ForumUser forumUser = new ForumUser("adam123", "Adam");
-            int postQuantity = generateListOfNPosts(1000, forumUser);
+            List<ForumPost> result50Users = generateListOfNPosts(50);
+            for (ForumPost post: result50Users) {
+                forumUser.addPost(post);
+            }
             forumStats.addForumUser(forumUser);
 
             //When
@@ -231,7 +238,7 @@ class ForumTestSuite {
         }
 
         @Test
-        void testCommentsQuantitySmallerThenPostsQuantity() {
+        void testCalculateAverageCommentsQuantitySmallerThenPostsQuantity() {
             //Given
             //When
             //Then
@@ -239,7 +246,7 @@ class ForumTestSuite {
         }
 
         @Test
-        void testCommentsQuantityGreaterThenPostsQuantity() {
+        void testCalculateAverageCommentsQuantityGreaterThenPostsQuantity() {
             //Given
             //When
             //Then
@@ -247,11 +254,14 @@ class ForumTestSuite {
         }
 
         @Test
-        void testWithoutUsers() {
+        void testCalculateAverageWithoutUsers() {
             //Given
             ForumStatisticsCalculator forumStats = new ForumStatisticsCalculator(statisticsMock);
             ForumUser forumUser = new ForumUser("adam123", "Adam");
-            int postQuantity = generateListOfNPosts(1000, forumUser);
+            List<ForumPost> result50Users = generateListOfNPosts(50);
+            for (ForumPost post: result50Users) {
+                forumUser.addPost(post);
+            }
 
             //When
             int displayUsersNamesQuantity = forumStats.usersNames().size();
@@ -261,7 +271,7 @@ class ForumTestSuite {
         }
 
         @Test
-        void testFor100Users() {
+        void testCalculateAverageFor100Users() {
             //Given
             ForumStatisticsCalculator forumStats = new ForumStatisticsCalculator(statisticsMock);
             List<ForumUser> result100Users = generateListOfNUsersNames(100);

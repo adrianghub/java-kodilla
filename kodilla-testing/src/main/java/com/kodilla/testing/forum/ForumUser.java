@@ -39,9 +39,8 @@ public class ForumUser {
         return theComment;
     }
 
-    public void addPost(String author, String postBody) {
-        ForumPost thePost = new ForumPost(postBody, author);
-        posts.add(thePost);
+    public void addPost(ForumPost post) {
+        posts.add(post);
     }
 
     public void addComment(ForumPost thePost, String author, String commentBody) {
