@@ -1,6 +1,7 @@
 package com.kodilla.stream.portfolio;
 
 import org.junit.jupiter.api.Test;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,6 +78,24 @@ class BoardTestSuite {
 
     }
 
+    @Test
+    void testAddTaskListAverageWorkingOnTask() {
+        //Given
+        Board project = prepareTestData();
+
+        //When
+        List<TaskList> inProgressTasks = new ArrayList<>();
+        inProgressTasks.add(new TaskList("In progress"));
+        double averageDaysWorkingOnTask = project.getTaskLists().stream()
+                .filter(inProgressTasks::contains)
+                .flatMap(tasklist -> tasklist.getTasks().stream())
+                .map(t -> t.getDeadline().getDayOfYear() - t.getCreated().getDayOfYear())
+                .mapToDouble(n -> n).average().getAsDouble();
+
+        //Then
+        assertEquals(18, Math.round(averageDaysWorkingOnTask));
+    }
+
     private Board prepareTestData() {
         // users
         User user1 = new User("dev1", "Walter White");
@@ -131,7 +150,6 @@ class BoardTestSuite {
         taskListInProgress.addTask(task2);
         TaskList taskListDone = new TaskList("Done");
         taskListDone.addTask(task6);
-
 
         Board project = new Board("Project Weather Prediction");
         project.addTaskList(taskListToDo);
