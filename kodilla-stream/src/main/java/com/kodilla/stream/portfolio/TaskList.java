@@ -2,7 +2,6 @@ package com.kodilla.stream.portfolio;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 public final class TaskList {
 
