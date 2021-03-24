@@ -89,11 +89,11 @@ class BoardTestSuite {
         double averageDaysWorkingOnTask = project.getTaskLists().stream()
                 .filter(inProgressTasks::contains)
                 .flatMap(tasklist -> tasklist.getTasks().stream())
-                .map(t -> t.getDeadline().getDayOfYear() - t.getCreated().getDayOfYear())
-                .mapToDouble(n -> n).average().getAsDouble();
+                .mapToDouble(t -> t.getDeadline().getDayOfYear() - t.getCreated().getDayOfYear())
+                .average().getAsDouble();
 
         //Then
-        assertEquals(18, Math.round(averageDaysWorkingOnTask));
+        assertEquals(18, averageDaysWorkingOnTask, 1);
     }
 
     private Board prepareTestData() {
