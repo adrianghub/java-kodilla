@@ -1,6 +1,4 @@
-package com.kodilla.good.patterns.solid.carrental;
-
-import java.time.LocalDateTime;
+package com.kodilla.good.patterns.challanges.carrental;
 
 public class Application {
 

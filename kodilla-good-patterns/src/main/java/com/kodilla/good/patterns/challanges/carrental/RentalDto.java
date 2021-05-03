@@ -1,4 +1,4 @@
-package com.kodilla.good.patterns.solid.carrental;
+package com.kodilla.good.patterns.challanges.carrental;
 
 public class RentalDto {
 
