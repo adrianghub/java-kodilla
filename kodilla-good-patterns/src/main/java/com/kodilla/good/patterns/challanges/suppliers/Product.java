@@ -4,12 +4,14 @@ public class Product {
 
     private String productName;
     private String productCategory;
-    private int quantity;
+    private double productCost;
+    private int productQuantity;
 
-    public Product(String productName, String productCategory, int quantity) {
+    public Product(String productName, String productCategory, double productCost, int productQuantity) {
         this.productName = productName;
         this.productCategory = productCategory;
-        this.quantity = quantity;
+        this.productCost = productCost;
+        this.productQuantity = productQuantity;
     }
 
     public String getProductName() {
@@ -20,7 +22,18 @@ public class Product {
         return productCategory;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public double getProductCost() {
+        return productCost;
+    }
+
+    public int getProductQuantity() {
+        return productQuantity;
+    }
+
+    @Override
+    public String toString() {
+        return  '\n' + productName + " X " +
+                productQuantity + ", " +
+                productCost + "zł/szt. '\n'";
     }
 }
