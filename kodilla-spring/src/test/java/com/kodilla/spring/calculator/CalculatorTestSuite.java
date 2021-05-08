@@ -10,13 +10,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class CalculatorTestSuite {
 
     @Autowired
-    private Display display;
+    private Calculator calc;
 
     @Test
     void testCalculations() {
         //Given
-        Calculator calc = new Calculator(display);
-
         //When
         double res1 = calc.add(2, 2);
         double res2 = calc.sub(2, 2);
