@@ -14,8 +14,4 @@ public final class TaskList {
     public List<String> getTasks() {
         return tasks;
     }
-
-    public void addTask(String task) {
-        tasks.add(task);
-    }
 }
