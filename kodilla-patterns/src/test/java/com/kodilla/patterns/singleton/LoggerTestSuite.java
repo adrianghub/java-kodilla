@@ -7,13 +7,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LoggerTestSuite {
 
+    private final static String MSG_LOG = "2021-05-14 06:53:50.572  INFO 11788 --- [main] com.kodilla.KodillaSpringApplication: " +
+            "Starting KodillaSpringApplication...";
+
     private static Logger logger;
 
     @BeforeAll
     public static void saveLogToLogger() {
         logger = Logger.INSTANCE;
-        logger.log("2021-05-14 06:53:50.572  INFO 11788 --- [main] com.kodilla.KodillaSpringApplication: " +
-                "Starting KodillaSpringApplication...");
+        logger.log(MSG_LOG);
     }
 
     @Test
@@ -23,7 +25,6 @@ public class LoggerTestSuite {
         String lastLog = logger.getLastLog();
         System.out.println("Opened: " + lastLog);
         //Then
-        assertEquals("2021-05-14 06:53:50.572  INFO 11788 --- [main] com.kodilla.KodillaSpringApplication: " +
-                    "Starting KodillaSpringApplication...", lastLog);
+        assertEquals(MSG_LOG, lastLog);
     }
 }
