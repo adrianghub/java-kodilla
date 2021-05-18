@@ -1,4 +1,4 @@
-package com.kodilla.patterns.factory;
+package com.kodilla.patterns.factory.shape;
 
 public class Rectangle implements Shape {
     private final String name;

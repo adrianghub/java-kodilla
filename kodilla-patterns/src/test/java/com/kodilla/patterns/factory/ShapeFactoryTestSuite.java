@@ -1,5 +1,7 @@
 package com.kodilla.patterns.factory;
 
+import com.kodilla.patterns.factory.shape.Shape;
+import com.kodilla.patterns.factory.shape.ShapeFactory;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

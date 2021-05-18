@@ -1,4 +1,4 @@
-package com.kodilla.patterns.factory;
+package com.kodilla.patterns.factory.shape;
 
 public class Circle implements Shape {
     private final String name;
