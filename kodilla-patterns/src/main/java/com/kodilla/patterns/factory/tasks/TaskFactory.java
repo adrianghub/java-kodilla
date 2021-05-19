@@ -14,7 +14,7 @@ public class TaskFactory {
             case SHOPPING_TASK:
                 return new ShoppingTask("Christmas Eve groceries", "oranges", 44);
             default:
-                return null;
+                throw new UnsupportedOperationException();
         }
     }
 }
