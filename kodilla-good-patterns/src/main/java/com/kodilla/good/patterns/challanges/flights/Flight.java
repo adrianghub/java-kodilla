@@ -8,6 +8,7 @@ public class Flight {
     private String arrivalCity;
     private String destinationCity;
     private String flightThroughCity;
+    private boolean isFlightThroughCity;
     private LocalDateTime departureTime;
     private LocalDateTime destinationTime;
 
@@ -16,6 +17,7 @@ public class Flight {
         this.destinationCity = destinationCity;
         this.departureTime = departureTime;
         this.destinationTime = destinationTime;
+        this.isFlightThroughCity = false;
     }
 
     public Flight(String arrivalCity, String destinationCity, LocalDateTime departureTime, LocalDateTime destinationTime, String flightThroughCity) {
@@ -24,6 +26,7 @@ public class Flight {
         this.departureTime = departureTime;
         this.destinationTime = destinationTime;
         this.flightThroughCity = flightThroughCity;
+        this.isFlightThroughCity = true;
     }
 
     public String getArrivalCity() {
@@ -36,7 +39,11 @@ public class Flight {
 
     public String getFlightThroughCity() {
 
-        return Objects.requireNonNullElse(flightThroughCity, "Direct flight.");
+        if (!isFlightThroughCity) {
+            return "Direct flight.";
+        }
+
+        return flightThroughCity;
     }
 
     public LocalDateTime getDepartureTime() {
