@@ -14,12 +14,12 @@ public class SearchFlightService {
     public boolean find(String arrivalCity, String destinationCity) {
         System.out.println("Finding flight...");
 
-        FlightRequestRetriever flightRequestRetriever = new FlightRequestRetriever();
+        FlightRepository flightRepository = new FlightRepository();
 
-        arrivalFlights = flightRequestRetriever.retrieveListOfFlights()
+        arrivalFlights = flightRepository.retrieveListOfFlights()
                 .stream().filter(flight -> flight.getArrivalCity().equals(arrivalCity)).collect(Collectors.toList());
 
-        destinationFlights = flightRequestRetriever.retrieveListOfFlights()
+        destinationFlights = flightRepository.retrieveListOfFlights()
                 .stream().filter(flight -> flight.getDestinationCity().equals(destinationCity)).collect(Collectors.toList());
 
         if (arrivalFlights.size() <= 0 && destinationFlights.size() <= 0) {
@@ -34,15 +34,15 @@ public class SearchFlightService {
     public boolean find(String arrivalCity, String destinationCity, String throughCity) {
         System.out.println("Finding flight...");
 
-        FlightRequestRetriever flightRequestRetriever = new FlightRequestRetriever();
+        FlightRepository flightRepository = new FlightRepository();
 
-        arrivalFlights = flightRequestRetriever.retrieveListOfFlights()
+        arrivalFlights = flightRepository.retrieveListOfFlights()
                 .stream().filter(flight -> flight.getArrivalCity().equals(arrivalCity)).collect(Collectors.toList());
 
-        destinationFlights = flightRequestRetriever.retrieveListOfFlights()
+        destinationFlights = flightRepository.retrieveListOfFlights()
                 .stream().filter(flight -> flight.getDestinationCity().equals(destinationCity)).collect(Collectors.toList());
 
-        throughCityFlights = flightRequestRetriever.retrieveListOfFlights()
+        throughCityFlights = flightRepository.retrieveListOfFlights()
                 .stream().filter(flight -> flight.getFlightThroughCity().equals(throughCity)).collect(Collectors.toList());
 
         return arrivalFlights.size() > 0 || destinationFlights.size() > 0 || throughCityFlights.size() > 0;
