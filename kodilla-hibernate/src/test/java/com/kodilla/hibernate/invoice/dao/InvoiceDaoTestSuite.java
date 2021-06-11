@@ -11,17 +11,18 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class InvoiceDaoTestSuite {
 
-    public static final String FIRST_PRODUCT_NAME = "Rubber Duck";
-    public static final String SEC_PRODUCT_NAME = "Luksja Soap";
-    public static final String THIRD_PRODUCT_NAME = "Sponge Bob";
+    public static final String FIRST_PRODUCT_NAME = "Bathroom accessories";
+    public static final String FIRST_ITEM_DESCRIPTION = "Rubber Duck";
+    public static final String SECOND_ITEM_DESCRIPTION = "Soap";
+    public static final String THIRD_ITEM_DESCRIPTION = "Sponge Bob";
     public static final String INVOICE_HEADER_NAME = "LP131131/32N/20";
 
     @Autowired
@@ -34,74 +35,97 @@ public class InvoiceDaoTestSuite {
     private InvoiceDao invoiceDao;
 
     @Test
-    void testSaveProductDao() {
+    void testSaveProductWithItems() {
         //Given
         Product product = new Product(FIRST_PRODUCT_NAME);
+
+        Item item = new Item(new BigDecimal(100), 5, FIRST_ITEM_DESCRIPTION);
+        Item item2 = new Item(new BigDecimal(200), 6, SECOND_ITEM_DESCRIPTION);
+        Item item3 = new Item(new BigDecimal(300), 7, THIRD_ITEM_DESCRIPTION);
+
+        item.setProduct(product);
+        item2.setProduct(product);
+        item3.setProduct(product);
+
+        product.addItem(item);
+        product.addItem(item2);
+        product.addItem(item3);
+
+        //When
         productDao.save(product);
         int id = product.getId();
 
-        //When
-        Optional<Product> result = productDao.findById(id);
-
         //Then
-        assertTrue(result.isPresent());
+        assertEquals(3, product.getItems().size());
 
         //CleanUp
         productDao.deleteById(id);
     }
 
     @Test
-    void testSaveItemDao() {
+    void testFindItemsByPrice() {
         //Given
-        Item item = new Item(new BigDecimal(300), 5, new BigDecimal(10));
-        item.setProduct(new Product(FIRST_PRODUCT_NAME));
+        Product product = new Product(FIRST_PRODUCT_NAME);
+
+        Item item = new Item(new BigDecimal(100), 5, FIRST_ITEM_DESCRIPTION);
+        Item item2 = new Item(new BigDecimal(200), 6, SECOND_ITEM_DESCRIPTION);
+        Item item3 = new Item(new BigDecimal(300), 6, THIRD_ITEM_DESCRIPTION);
+
+        item.setProduct(product);
+        item2.setProduct(product);
+        item3.setProduct(product);
+
+        product.addItem(item);
+        product.addItem(item2);
+        product.addItem(item3);
 
         //When
-        itemDao.save(item);
-        int id = item.getId();
+        productDao.save(product);
+        int id = product.getId();
+
+        List<Item> result = itemDao.findByQuantity(6);
 
         //Then
-        assertNotEquals(0, id);
+        assertEquals(2, result.size());
 
         //CleanUp
-        itemDao.deleteById(id);
+        productDao.deleteById(id);
     }
 
     @Test
     void testInvoiceDaoSave() {
         //Given
         Product product = new Product(FIRST_PRODUCT_NAME);
-        Product product2 = new Product(SEC_PRODUCT_NAME);
-        Product product3 = new Product(THIRD_PRODUCT_NAME);
 
-        Item item = new Item(new BigDecimal(100), 5, new BigDecimal(10));
-        Item item2 = new Item(new BigDecimal(200), 6, new BigDecimal(20));
-        Item item3 = new Item(new BigDecimal(300), 7, new BigDecimal(30));
-        Item item4 = new Item(new BigDecimal(400), 8, new BigDecimal(40));
+        Item item = new Item(new BigDecimal(100), 5, FIRST_ITEM_DESCRIPTION);
+        Item item2 = new Item(new BigDecimal(200), 6, SECOND_ITEM_DESCRIPTION);
+        Item item3 = new Item(new BigDecimal(300), 7, THIRD_ITEM_DESCRIPTION);
 
         item.setProduct(product);
-        item2.setProduct(product3);
+        item2.setProduct(product);
         item3.setProduct(product);
-        item4.setProduct(product2);
+
+        product.addItem(item);
+        product.addItem(item2);
+        product.addItem(item3);
 
         Invoice invoice = new Invoice(INVOICE_HEADER_NAME);
-        invoice.getItems().add(item);
-        invoice.getItems().add(item2);
-        invoice.getItems().add(item3);
-        invoice.getItems().add(item4);
+        invoice.addItem(item);
+        invoice.addItem(item2);
+        invoice.addItem(item3);
 
         //When
+        productDao.save(product);
         invoiceDao.save(invoice);
         int invoiceId = invoice.getId();
 
-        //Then
-        assertNotEquals(0, invoiceId);
 
-        //CleanUp
         try {
+            //Then
+            assertNotEquals(0, invoiceId);
+        } finally {
+            //CleanUp
             invoiceDao.deleteById(invoiceId);
-        } catch (Exception e) {
-            //do nothing
         }
     }
 }
