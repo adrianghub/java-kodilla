@@ -43,10 +43,6 @@ public class InvoiceDaoTestSuite {
         Item item2 = new Item(new BigDecimal(200), 6, SECOND_ITEM_DESCRIPTION);
         Item item3 = new Item(new BigDecimal(300), 7, THIRD_ITEM_DESCRIPTION);
 
-        item.setProduct(product);
-        item2.setProduct(product);
-        item3.setProduct(product);
-
         product.addItem(item);
         product.addItem(item2);
         product.addItem(item3);
@@ -70,10 +66,6 @@ public class InvoiceDaoTestSuite {
         Item item = new Item(new BigDecimal(100), 5, FIRST_ITEM_DESCRIPTION);
         Item item2 = new Item(new BigDecimal(200), 6, SECOND_ITEM_DESCRIPTION);
         Item item3 = new Item(new BigDecimal(300), 6, THIRD_ITEM_DESCRIPTION);
-
-        item.setProduct(product);
-        item2.setProduct(product);
-        item3.setProduct(product);
 
         product.addItem(item);
         product.addItem(item2);
@@ -101,14 +93,6 @@ public class InvoiceDaoTestSuite {
         Item item2 = new Item(new BigDecimal(200), 6, SECOND_ITEM_DESCRIPTION);
         Item item3 = new Item(new BigDecimal(300), 7, THIRD_ITEM_DESCRIPTION);
 
-        item.setProduct(product);
-        item2.setProduct(product);
-        item3.setProduct(product);
-
-        product.addItem(item);
-        product.addItem(item2);
-        product.addItem(item3);
-
         Invoice invoice = new Invoice(INVOICE_HEADER_NAME);
         invoice.addItem(item);
         invoice.addItem(item2);
@@ -116,6 +100,7 @@ public class InvoiceDaoTestSuite {
 
         //When
         productDao.save(product);
+        int productId = product.getId();
         invoiceDao.save(invoice);
         int invoiceId = invoice.getId();
 
@@ -125,6 +110,7 @@ public class InvoiceDaoTestSuite {
             assertNotEquals(0, invoiceId);
         } finally {
             //CleanUp
+            productDao.deleteById(productId);
             invoiceDao.deleteById(invoiceId);
         }
     }
