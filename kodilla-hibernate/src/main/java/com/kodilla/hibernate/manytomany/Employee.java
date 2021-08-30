@@ -7,7 +7,7 @@ import java.util.List;
 
 @NamedQuery(
         name = "Employee.retrieveEmployeesBySpecifiedName",
-        query = "FROM Employee WHERE firstName = :FIRSTNAME"
+        query = "FROM Employee WHERE lastName LIKE :QUERYNAME"
 
 )
 @Entity
@@ -20,7 +20,6 @@ public class Employee {
     private List<Company> companies = new ArrayList<>();
 
     public Employee() {
-
     }
 
     public Employee(String firstName, String lastName) {

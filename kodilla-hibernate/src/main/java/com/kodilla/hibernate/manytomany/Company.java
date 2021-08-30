@@ -5,16 +5,17 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-@NamedNativeQuery(
+
+@NamedQuery(
         name = "Company.retrieveCompaniesBySpecifiedQueryName",
-        query = "SELECT * FROM COMPANIES WHERE COMPANY_NAME LIKE :QUERYNAME",
-        resultClass = Company.class
+        query = "FROM Company WHERE name LIKE :QUERYNAME"
+
 )
 @Entity
 @Table(name = "COMPANIES")
 public class Company {
 
-    private int id;
+    private Long id;
     private String name;
     private List<Employee> employees = new ArrayList<>();
 
@@ -29,7 +30,7 @@ public class Company {
     @GeneratedValue
     @NotNull
     @Column(name = "COMPANY_ID", unique = true)
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
@@ -39,7 +40,7 @@ public class Company {
         return name;
     }
 
-    private void setId(int id) {
+    private void setId(Long id) {
         this.id = id;
     }
 
